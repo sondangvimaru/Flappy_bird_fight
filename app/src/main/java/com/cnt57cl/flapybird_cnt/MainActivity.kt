@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity(){
     {
         try
         {
-            socket= IO.socket("http://192.168.1.7:3000/")
+            socket= IO.socket("https://serverfappybird.herokuapp.com/")
 
             socket!!.connect()
 

@@ -148,12 +148,12 @@
         </RelativeLayout>
 
     </LinearLayout>
-    <ImageView
+    <pl.droidsonroids.gif.GifImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/message"
 
-        android:src="@drawable/message"
+        android:src="@drawable/sartgame"
         />
 
 
