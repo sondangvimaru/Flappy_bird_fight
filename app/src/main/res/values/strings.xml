@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Flapybird_cnt</string>
+    <string name="facebook_app_id">742540579592562</string>
+    <string name="fb_login_protocol_scheme">fb742540579592562</string>
+    <string name="login_text">Đăng nhập</string>
+    <string name="logout_text">Đăng xuất</string>
+    <string name="cancel">Hủy Bỏ</string>
+</resources>

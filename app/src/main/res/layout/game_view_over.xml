@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    >
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:id="@+id/img_over"
+    app:layout_constraintTop_toTopOf="parent"
+    android:src="@drawable/yw"
+android:background="@android:color/transparent"
+    />
+    <pl.droidsonroids.gif.GifImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/img_cup"
+        app:layout_constraintTop_toBottomOf="@+id/img_over"
+        android:src="@drawable/wincup"
+        android:background="@android:color/transparent"
+
+        />
+    <ImageView
+            android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:id="@+id/btn_gotohome"
+        android:src="@drawable/home"
+        app:layout_constraintTop_toBottomOf="@id/img_cup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Ve home"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>
