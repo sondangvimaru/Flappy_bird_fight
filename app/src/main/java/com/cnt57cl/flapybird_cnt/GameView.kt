@@ -60,7 +60,18 @@ class GameView(context: Context, att: AttributeSet?):View(context,att) {
     var pipe_down3_x=0
     var pipe_down3_height=0
     var source:Int=0
+    var item:Bitmap?=null
+    var itemx:Int=0
     var musicpoint:MediaPlayer?=null
+    var rocket_run:Bitmap?=null
+    var x_rocketrun:Int=0
+    var y_rocketrun:Int=0
+    var showitem=false
+    var itemishowing=false
+    var run_rocket=false
+    var my_id:Long=0
+    var room_id:Long=0
+    var run_rocket_count:Int=0
     init {
 
         runnable= Runnable {
@@ -75,6 +86,10 @@ class GameView(context: Context, att: AttributeSet?):View(context,att) {
         ground=BitmapFactory.decodeResource(resources,R.drawable.ground)
         pipe_up= BitmapFactory.decodeResource(resources,R.drawable.uppipe)
         pipe_down=BitmapFactory.decodeResource(resources,R.drawable.downpipe)
+        item=BitmapFactory.decodeResource(resources,R.drawable.rocketicon)
+        rocket_run= BitmapFactory.decodeResource(resources,R.drawable.rocket)
+
+
         pipe_up2=pipe_up
         pipe_down2=pipe_down
         pipe_up3=pipe_up
@@ -86,7 +101,8 @@ class GameView(context: Context, att: AttributeSet?):View(context,att) {
         dheight=point!!.y
         rect= Rect(backgroudx,backgroudy,dwith,dheight)
         rectbgr=Rect((backgroudx+bm!!.width),backgroudy,dwith,dheight)
-
+        itemx=dwith
+        x_rocketrun=dwith
         val bird1:Bitmap=BitmapFactory.decodeResource(resources,R.drawable.upbrid)
         val bird2:Bitmap=BitmapFactory.decodeResource(resources,R.drawable.downbird)
         brid= ArrayList()
@@ -170,12 +186,12 @@ class GameView(context: Context, att: AttributeSet?):View(context,att) {
         {
            check3=false
         }
-        pipe_upx-=5
-        pipe_downx-=5
-        pipe_up2_x-=5
-        pipe_down2_x-=5
-        pipe_up3_x-=5
-        pipe_down3_x-=5
+        pipe_upx-=15
+        pipe_downx-=15
+        pipe_up2_x-=15
+        pipe_down2_x-=15
+        pipe_up3_x-=15
+        pipe_down3_x-=15
         rect= Rect(backgroudx,backgroudy,dwith,dheight)
         rectbgr=Rect((backgroudx+bm!!.width),backgroudy,dwith,dheight)
         if(rectbgr!!.left<=0)
@@ -193,6 +209,44 @@ class GameView(context: Context, att: AttributeSet?):View(context,att) {
         canvas?.drawBitmap(pipe_up3!!,null, Rect(pipe_up3_x,pipe_up3_height,pipe_up3_x+pipe_up!!.width,height-190),null)
         canvas?.drawBitmap(pipe_down3!!, null,Rect(pipe_down3_x,0,pipe_down3_x+pipe_down!!.width,pipe_down3_height),Paint())
         canvas?.drawBitmap(ground!!,null,Rect(0,height-200,dwith,height),null)
+        if(showitem)
+        {
+
+            if(eat_rocket())
+            {
+
+                itemishowing=false
+                showitem=false
+                itemx=dwith
+                MainActivity.socket?.emit("eat-item","${room_id} ${my_id}")
+
+            }else
+            showitem(canvas)
+        }
+        if(run_rocket)
+        {
+            if(run_rocket_count<3)
+                {
+
+            run_rocket(canvas)
+               if(rocket_die())
+               {
+                   handel!!.removeCallbacks(runnable!!)
+                   die_music!!.start()
+                   gameover=true
+               }
+
+
+            }
+            else
+            {
+                run_rocket=false
+                run_rocket_count=0
+            }
+
+        }
+
+
         if(bird_frame==0)
         {
             bird_frame=1
@@ -216,7 +270,7 @@ class GameView(context: Context, att: AttributeSet?):View(context,att) {
             die_music!!.start()
             gameover=true
 
-           handel?.removeCallbacks(runnable)
+           handel?.removeCallbacks(runnable!!)
         }
         if(point_up())
         {
@@ -224,10 +278,50 @@ class GameView(context: Context, att: AttributeSet?):View(context,att) {
             musicpoint!!.start()
 
         }
-        handel?.postDelayed(runnable, update.toLong())
+        handel?.postDelayed(runnable!!, update.toLong())
 
     }
 
+    fun rocket_die():Boolean
+    {
+        if(birdx>=(x_rocketrun-100) && birdx<=(x_rocketrun+100) && birdy>=y_rocketrun&& birdy<=(y_rocketrun+100)) return  true
+        return  false
+    }
+    fun eat_rocket():Boolean
+    {
+        if(birdx>= itemx && birdx<= (itemx+100) && birdy >=height/2 && birdy<=(height/2+100)) return  true
+        return false
+
+    }
+    fun run_rocket(canvas: Canvas?)
+    {
+
+        canvas?.drawBitmap(rocket_run!!,null,Rect(x_rocketrun-100,y_rocketrun,x_rocketrun+100,y_rocketrun+100),null)
+        x_rocketrun-=20
+        y_rocketrun+=30
+
+        if(x_rocketrun<=0 && y_rocketrun>=dheight)
+        {
+            run_rocket_count++
+            x_rocketrun=dwith
+            y_rocketrun=0
+        }
+
+    }
+    fun showitem(canvas: Canvas?)
+    {
+        canvas?.drawBitmap(item!!,null, Rect(itemx,height/2,(itemx+100),height/2+100),null)
+                itemx-=15
+
+
+        if(itemx<=0) {
+            itemishowing=false
+            itemx=dwith
+            showitem=false
+
+        }
+
+    }
     fun point_up():Boolean
     {
 
@@ -246,6 +340,7 @@ class GameView(context: Context, att: AttributeSet?):View(context,att) {
 
 
     }
+    
     fun gameover():Boolean
     {
         if(birdx+brid.get(0).width>=pipe_upx&&birdx<=pipe_upx+pipe_up!!.width && birdy+brid.get(0).height>=pipe_upheight) {

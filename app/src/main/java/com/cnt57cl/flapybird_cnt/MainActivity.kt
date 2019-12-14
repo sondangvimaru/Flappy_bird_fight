@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity(){
     {
         try
         {
-            socket= IO.socket("https://serverfappybird.herokuapp.com/")
+            socket= IO.socket("http://192.168.1.6:3000")
 
             socket!!.connect()
 
@@ -302,7 +302,13 @@ fun getview():View
             Method.POST,
             "https://serverflappybrid.000webhostapp.com/themuser.php",
             Response.Listener { },
-            Response.ErrorListener { error -> Log.d("sondk", error.message) }
+            Response.ErrorListener {
+
+
+                    error -> Log.d("sondk",
+
+                error.message.toString()) }
+
         ) {
             override fun getParams(): Map<String, String> {
                 val list : HashMap<String, String>
@@ -325,7 +331,7 @@ fun getview():View
 
 
         val requestQueue: RequestQueue = Volley.newRequestQueue(context)
-        requestQueue.getCache().clear()
+        requestQueue.cache.clear()
         requestQueue.add(luu)
     }
     private fun get_notifil() {
@@ -422,6 +428,14 @@ fun getview():View
 
         socket?.emit("user-off",id.toString())
         super.onBackPressed()
+    }
+
+    fun viewchart(view: View) {
+
+        val intent= Intent(this,chart_rank_view::class.java)
+        startActivity(intent)
+
+
     }
 
 }

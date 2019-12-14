@@ -3,7 +3,8 @@
     package="com.cnt57cl.flapybird_cnt">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,13 +12,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Gameplaying"
-            android:screenOrientation="behind"
-
-            ></activity>
-        <activity android:name=".MainActivity"
-            android:screenOrientation="behind"
-            >
+        <activity android:name=".chart_rank_view"></activity>
+        <activity
+            android:name=".Gameplaying"
+            android:screenOrientation="behind" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="behind">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,7 +29,6 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
     </application>
 
 </manifest>

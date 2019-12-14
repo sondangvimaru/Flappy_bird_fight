@@ -13,9 +13,12 @@ import android.view.WindowManager
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.android.volley.AuthFailureError
 import com.android.volley.Request
+import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.facebook.Profile
 import com.facebook.internal.ImageRequest
@@ -25,7 +28,9 @@ import kotlinx.android.synthetic.main.activity_gameplaying.*
 import org.json.JSONException
 import org.json.JSONObject
 import pl.droidsonroids.gif.GifImageView
+import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.random.Random
 
 class Gameplaying : AppCompatActivity(){
 
@@ -65,6 +70,23 @@ class Gameplaying : AppCompatActivity(){
             @RequiresApi(Build.VERSION_CODES.N)
             override fun onTick(millisUntilFinished: Long) {
                 time-=1000
+                if(
+                    time ==(60000).toLong()&& Random.nextBoolean()
+                    ||time ==(90000).toLong()&& Random.nextBoolean()
+                    ||time==120000.toLong() &&  Random.nextBoolean()
+                    || time ==(150000).toLong()&& Random.nextBoolean()
+                    || time==180000.toLong()&&  Random.nextBoolean()
+                    || time ==(210000).toLong()&& Random.nextBoolean()
+                    || time==240000.toLong()&&  Random.nextBoolean()
+                    || time ==(270000).toLong()&& Random.nextBoolean()
+
+                )
+                {
+                    gameview_play.showitem=true
+                    gameview_play.itemishowing=true
+                }
+
+
                 val phut= TimeUnit.MILLISECONDS.toMinutes(time)
                 val giay= TimeUnit.MILLISECONDS.toSeconds(time-TimeUnit.MINUTES.toMillis(phut))
 
@@ -226,11 +248,33 @@ class Gameplaying : AppCompatActivity(){
                     val over_dialog: gameoverDialog = gameoverDialog(this,getview(result!!))
 
                     over_dialog.setCancelable(false)
-
+                    if(!over_dialog.isShowing)
                     over_dialog.show()
 
 
-            }catch (e:java.lang.Exception)
+            }catch (e:Exception)
+            {
+                Log.d("loi_dialog",e.message.toString())
+            }
+        }
+
+    }
+    var Server_send_rocket= Emitter.Listener { args ->
+        runOnUiThread {
+
+
+            val jsonObject = args[0] as JSONObject
+
+
+         try{
+
+             val rocket =jsonObject.getBoolean("rocket")
+             if(rocket)
+             {
+                 gameview_play.run_rocket=true
+             }
+
+            }catch (e:Exception)
             {
                 Log.d("loi_dialog",e.message.toString())
             }
@@ -252,7 +296,8 @@ class Gameplaying : AppCompatActivity(){
             {
                 img_over.setImageResource(R.drawable.yw)
                 img_cup.setImageResource(R.drawable.wincup)
-
+                // up point on server
+                winner_up_to_server(id)
 
             }
             "lose"->
@@ -279,6 +324,42 @@ class Gameplaying : AppCompatActivity(){
         })
         return v
     }
+
+    private fun winner_up_to_server(i: Long?) {
+
+        val luu: StringRequest = object : StringRequest(
+            Method.POST,
+            "https://serverflappybrid.000webhostapp.com/upoint.php",
+            Response.Listener { },
+            Response.ErrorListener {
+
+
+                    error -> Log.d("sondk",
+
+                error.message.toString()) }
+
+        ) {
+            override fun getParams(): Map<String, String> {
+                val list : HashMap<String, String>
+                        = HashMap()
+                list.put("id",i.toString())
+
+                return list
+            }
+
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                return super.getHeaders()
+            }
+        }
+
+
+        val requestQueue: RequestQueue = Volley.newRequestQueue(this)
+        requestQueue.cache.clear()
+        requestQueue.add(luu)
+
+    }
+
     fun init()
     {
 
@@ -288,12 +369,15 @@ class Gameplaying : AppCompatActivity(){
             MainActivity.socket?.on("server-send-point",Server_send_point)
             MainActivity.socket?.on("server-send-result",Server_send_game_over)
             MainActivity.socket?.on("server-send-time-up",Server_send_time_up)
+            MainActivity.socket?.on("server-send-rocket",Server_send_rocket)
         val bd= intent.extras
         if(bd!=null)
         {
             room= bd.getLong("id_room")
             id=bd.getLong("id-user")
             id_enemy =bd.getLong("id-enemy")
+            gameview_play.my_id=id!!
+            gameview_play.room_id= room
 
 
         }
@@ -347,7 +431,7 @@ class Gameplaying : AppCompatActivity(){
 
 
                 }
-                Thread.sleep(1000)
+                Thread.sleep(500)
             }
 
         })
