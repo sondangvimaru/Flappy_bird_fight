@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    >
+
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:weightSum="10"
+      android:orientation="horizontal"
+      >
+
+      <ImageButton
+          android:id="@+id/btn_back"
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:layout_weight="3"
+          android:background="@android:color/transparent"
+          android:src="@drawable/backicon"
+          android:scaleType="centerInside"
+          />
+      <ImageView
+          android:id="@+id/img_bird"
+          android:layout_width="0dp"
+          android:layout_height="120dp"
+          android:layout_weight="4"
+          android:scaleType="center"
+          android:src="@drawable/yellowbirdmidflap"
+          />
+      <ImageButton
+          android:id="@+id/btn_next"
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:layout_weight="3"
+          android:src="@drawable/backicon"
+          android:scaleType="centerInside"
+          android:rotation="180"
+          android:background="@android:color/transparent"
+          />
+  </LinearLayout>
+<ImageButton
+    android:layout_width="150dp"
+    android:layout_height="50dp"
+    android:background="@android:color/transparent"
+    android:scaleType="centerInside"
+    android:id="@+id/btn_ok"
+    android:src="@drawable/ok"
+    android:layout_gravity="center"
+    />
+</LinearLayout>

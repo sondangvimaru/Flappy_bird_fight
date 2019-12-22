@@ -25,7 +25,7 @@ class GameView(context: Context, att: AttributeSet?):View(context,att) {
     var dwith=0
     var dheight=0
     var rect:Rect?=null
-    var brid:ArrayList<Bitmap>
+    var brid:ArrayList<Bitmap>?=null
     var bird_frame=0
     var v=0
     var vitri=3
@@ -72,6 +72,10 @@ class GameView(context: Context, att: AttributeSet?):View(context,att) {
     var my_id:Long=0
     var room_id:Long=0
     var run_rocket_count:Int=0
+    var arr_bird1:IntArray= intArrayOf(R.drawable.upbrid,R.drawable.downbird)
+    var arr_bird2:IntArray= intArrayOf(R.drawable.bluebirdupflap,R.drawable.bluebirddownflap)
+    var arr_bird3:IntArray= intArrayOf(R.drawable.redbirdupflap,R.drawable.redbirddownflap)
+    var bird_id=0
     init {
 
         runnable= Runnable {
@@ -103,16 +107,45 @@ class GameView(context: Context, att: AttributeSet?):View(context,att) {
         rectbgr=Rect((backgroudx+bm!!.width),backgroudy,dwith,dheight)
         itemx=dwith
         x_rocketrun=dwith
-        val bird1:Bitmap=BitmapFactory.decodeResource(resources,R.drawable.upbrid)
-        val bird2:Bitmap=BitmapFactory.decodeResource(resources,R.drawable.downbird)
+
+
+
+    }
+
+    override fun isShown(): Boolean {
+
         brid= ArrayList()
-        brid.add(bird1)
-        brid.add(bird2)
-        birdx=(dwith-brid.get(0).width)/2
-        birdy=(dheight-brid.get(0).height)/2
+        val bird1:Bitmap=getbirdup()
+
+        val bird2:Bitmap=getbirdown()
+        brid?.add(bird1)
+        brid?.add(bird2)
+        birdx=(dwith-brid?.get(0)!!.width)/2
+        birdy=(dheight-brid?.get(0)!!.height)/2
         touch_music= MediaPlayer.create(context,R.raw.wing)
         die_music= MediaPlayer.create(context,R.raw.hit)
         musicpoint=MediaPlayer.create(context,R.raw.point)
+        return super.isShown()
+
+    }
+    private fun getbirdown(): Bitmap {
+        when(bird_id)
+        {
+            0-> return  BitmapFactory.decodeResource(resources,arr_bird1.get(1))
+            1-> return  BitmapFactory.decodeResource(resources,arr_bird2.get(1))
+            2-> return  BitmapFactory.decodeResource(resources,arr_bird3.get(1))
+        }
+        return BitmapFactory.decodeResource(resources,arr_bird1.get(1))
+    }
+
+    private fun getbirdup(): Bitmap {
+        when(bird_id)
+        {
+            0-> return  BitmapFactory.decodeResource(resources,arr_bird1.get(0))
+            1-> return  BitmapFactory.decodeResource(resources,arr_bird2.get(0))
+            2-> return  BitmapFactory.decodeResource(resources,arr_bird3.get(0))
+        }
+        return BitmapFactory.decodeResource(resources,arr_bird1.get(0))
     }
 
     fun  setupdata_pipe2()
@@ -251,7 +284,7 @@ class GameView(context: Context, att: AttributeSet?):View(context,att) {
         {
             bird_frame=1
         }else bird_frame=0
-        if(birdy<dheight-brid.get(0).height){
+        if(birdy<dheight-brid!!.get(0).height){
             v+=vitri
             birdy+=v
 
@@ -259,11 +292,11 @@ class GameView(context: Context, att: AttributeSet?):View(context,att) {
         else
         {
 
-            birdy= dheight-brid.get(0).height
+            birdy= dheight-brid!!.get(0).height
         }
 
 
-        canvas?.drawBitmap(brid.get(bird_frame),(birdx).toFloat(),(birdy).toFloat(),null)
+        canvas?.drawBitmap(brid!!.get(bird_frame),(birdx).toFloat(),(birdy).toFloat(),null)
         if(gameover())
         {
 
@@ -325,13 +358,13 @@ class GameView(context: Context, att: AttributeSet?):View(context,att) {
     fun point_up():Boolean
     {
 
-        if(!gameover && birdx>pipe_upx+pipe_up!!.width&& birdx-(pipe_upx+pipe_up!!.width)<=6
-            &&birdx>pipe_downx+pipe_down!!.width&&birdx-(pipe_downx+pipe_down!!.width)<=6
-            || !gameover && birdx>pipe_up2_x+pipe_up2!!.width&& birdx-(pipe_up2_x+pipe_up2!!.width)<=6
-            &&birdx>pipe_down2_x+pipe_down2!!.width&&birdx-(pipe_down2_x+pipe_down2!!.width)<=6
+        if(!gameover && birdx>pipe_upx+pipe_up!!.width&& birdx-(pipe_upx+pipe_up!!.width)<=16
+            &&birdx>pipe_downx+pipe_down!!.width&&birdx-(pipe_downx+pipe_down!!.width)<=16
+            || !gameover && birdx>pipe_up2_x+pipe_up2!!.width&& birdx-(pipe_up2_x+pipe_up2!!.width)<=16
+            &&birdx>pipe_down2_x+pipe_down2!!.width&&birdx-(pipe_down2_x+pipe_down2!!.width)<=16
 
-            ||!gameover && birdx>pipe_up3_x+pipe_up3!!.width&& birdx-(pipe_up3_x+pipe_up3!!.width)<=6
-            &&birdx>pipe_down3_x+pipe_down3!!.width&&birdx-(pipe_down3_x+pipe_down3!!.width)<=6
+            ||!gameover && birdx>pipe_up3_x+pipe_up3!!.width&& birdx-(pipe_up3_x+pipe_up3!!.width)<=16
+            &&birdx>pipe_down3_x+pipe_down3!!.width&&birdx-(pipe_down3_x+pipe_down3!!.width)<=16
         )
             return  true
 
@@ -343,39 +376,39 @@ class GameView(context: Context, att: AttributeSet?):View(context,att) {
     
     fun gameover():Boolean
     {
-        if(birdx+brid.get(0).width>=pipe_upx&&birdx<=pipe_upx+pipe_up!!.width && birdy+brid.get(0).height>=pipe_upheight) {
+        if(birdx+brid!!.get(0).width>=pipe_upx&&birdx<=pipe_upx+pipe_up!!.width && birdy+brid!!.get(0).height>=pipe_upheight) {
 
         return true
         }
         else
-            if(birdx +brid.get(0).width>=pipe_up2_x&&birdx<=pipe_up2_x+pipe_up2!!.width &&+brid.get(0).height>=pipe_up2_height) {
+            if(birdx +brid!!.get(0).width>=pipe_up2_x&&birdx<=pipe_up2_x+pipe_up2!!.width &&+brid!!.get(0).height>=pipe_up2_height) {
 
             return true
             }
             else
 
-                if(birdx +brid.get(0).width>=pipe_up3_x&&birdx<=pipe_up3_x+pipe_up3!!.width && +brid.get(0).height>=pipe_up3_height)
+                if(birdx +brid!!.get(0).width>=pipe_up3_x&&birdx<=pipe_up3_x+pipe_up3!!.width && +brid!!.get(0).height>=pipe_up3_height)
 
                 {
             return true
         }
 
-        if(birdx+brid.get(0).width>=pipe_downx &&birdx<=pipe_downx+pipe_down!!.width && birdy<=pipe_downheight)
+        if(birdx+brid!!.get(0).width>=pipe_downx &&birdx<=pipe_downx+pipe_down!!.width && birdy<=pipe_downheight)
         {
             return true
         }
         else
-        if(birdx+brid.get(0).width>=pipe_down2_x &&birdx<=pipe_down2_x+pipe_down!!.width && birdy<=pipe_down2_height)
+        if(birdx+brid!!.get(0).width>=pipe_down2_x &&birdx<=pipe_down2_x+pipe_down!!.width && birdy<=pipe_down2_height)
         {
             return true
         }
         else
-        if(birdx+brid.get(0).width>=pipe_down3_x &&birdx<=pipe_down3_x+pipe_down!!.width && birdy<=pipe_down3_height)
+        if(birdx+brid!!.get(0).width>=pipe_down3_x &&birdx<=pipe_down3_x+pipe_down!!.width && birdy<=pipe_down3_height)
         {
             return true
         }
 
-            if(birdy+brid.get(0).height>=height-200) return  true
+            if(birdy+brid!!.get(0).height>=height-200) return  true
          return  false
 
 

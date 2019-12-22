@@ -27,7 +27,7 @@
         android:src="@drawable/bird"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.475"
-
+        android:onClick="click_bird"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/img_title" />
 

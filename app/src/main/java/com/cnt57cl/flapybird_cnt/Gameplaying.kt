@@ -46,6 +46,7 @@ class Gameplaying : AppCompatActivity(){
     var profilePictureUri2: Uri?=null
     var countDownTimer:CountDownTimer?=null
     var time:Long=300000
+    var bird_id=0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gameplaying)
@@ -57,6 +58,7 @@ class Gameplaying : AppCompatActivity(){
             message.visibility=View.GONE
             frame_fight.visibility=View.VISIBLE
             gameview_play.visibility=View.VISIBLE
+            gameview_play.bird_id=this.bird_id
         })
 
 
@@ -370,15 +372,18 @@ class Gameplaying : AppCompatActivity(){
             MainActivity.socket?.on("server-send-result",Server_send_game_over)
             MainActivity.socket?.on("server-send-time-up",Server_send_time_up)
             MainActivity.socket?.on("server-send-rocket",Server_send_rocket)
+
         val bd= intent.extras
         if(bd!=null)
         {
             room= bd.getLong("id_room")
             id=bd.getLong("id-user")
             id_enemy =bd.getLong("id-enemy")
+            bird_id=bd.getInt("bird_id")
             gameview_play.my_id=id!!
             gameview_play.room_id= room
-
+            gameview_play.bird_id=bird_id
+            Log.d("vitrilog","id=${bird_id}")
 
         }
         if(id!=null)
@@ -415,7 +420,7 @@ class Gameplaying : AppCompatActivity(){
                     runOnUiThread {
 
                         tv_my_source.text = gameview_play.source.toString()
-                     }
+                      }
 
 
                     Thread(Runnable {

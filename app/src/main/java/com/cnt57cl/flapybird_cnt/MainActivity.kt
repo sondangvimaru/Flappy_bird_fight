@@ -2,18 +2,23 @@ package com.cnt57cl.flapybird_cnt
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.Window
 import android.view.WindowManager
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.Button
+import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.AuthFailureError
 import com.android.volley.RequestQueue
@@ -34,7 +39,7 @@ import java.util.*
 import kotlin.random.Random
 
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity(),View.OnClickListener{
 
 
     companion object
@@ -48,6 +53,13 @@ class MainActivity : AppCompatActivity(){
     var profilePictureUri:Uri?=null
     var callbackManager: CallbackManager?=null
     var profileTracker:ProfileTracker?=null
+
+    var btn_next:ImageButton?=null
+    var btn_back:ImageButton?=null
+    var img_bird:ImageView?=null
+    var btn_ok:ImageButton?=null
+    var arr_bird:IntArray= intArrayOf(R.drawable.yellowbirdmidflap,R.drawable.bluebirdmidflap,R.drawable.redbirdmidflap)
+    var vitri=0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -96,6 +108,8 @@ class MainActivity : AppCompatActivity(){
                 intent.putExtra("id_room",room!!)
                 intent.putExtra("id-user",id)
                 intent.putExtra("id-enemy",arr[0].toLong())
+                intent.putExtra("bird_id",vitri)
+                Log.d("vitrilog",vitri.toString())
                 startActivity(intent)
             } catch (e: JSONException) {
                 e.printStackTrace()
@@ -125,6 +139,7 @@ class MainActivity : AppCompatActivity(){
     }
     fun init()
     {
+
 
         seachingDialog= seaching_dialog(this,getview())
         seachingDialog!!.setCancelable(false)
@@ -343,7 +358,7 @@ fun getview():View
                     val name = response.jsonObject.getString("name")
                  Log.d("login:",name)
 
-                  var  img = response.jsonObject.getString("id")
+                  var  img:String? = response.jsonObject.getString("id")
                                         if (img == null) {
                         img = getCurrentProfile().id
 
@@ -435,6 +450,82 @@ fun getview():View
         val intent= Intent(this,chart_rank_view::class.java)
         startActivity(intent)
 
+
+    }
+
+
+    override fun onClick(v: View?) {
+
+        when(v?.id)
+        {
+
+            R.id.img_bird->
+            {
+
+            }
+        }
+    }
+
+    private fun show_bird_choose() {
+
+       val dialog_choose: Dialog = Dialog(this)
+        val v:View= layoutInflater.inflate(R.layout.bird_view,null,false)
+
+        dialog_choose.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog_choose.setContentView(v)
+        dialog_choose.setCancelable(false)
+        dialog_choose.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        btn_next=dialog_choose.findViewById(R.id.btn_next)
+        btn_back=dialog_choose.findViewById(R.id.btn_back)
+        img_bird=dialog_choose.findViewById(R.id.img_bird)
+        btn_ok= dialog_choose.findViewById(R.id.btn_ok)
+        set_bird()
+
+        btn_next?.setOnClickListener{
+            if(vitri>=arr_bird.size-1)  vitri=0
+            else vitri++
+            img_bird?.setImageResource(arr_bird.get(vitri))
+
+
+        }
+        btn_back?.setOnClickListener {
+            if(vitri<=0)  vitri=arr_bird.size-1
+            else vitri--
+            img_bird?.setImageResource(arr_bird.get(vitri))
+        }
+        btn_ok?.setOnClickListener {
+
+            dialog_choose.dismiss()
+        }
+        dialog_choose.show()
+    }
+
+    private fun set_bird() {
+
+        when(vitri)
+        {
+            0 ->
+                    {
+
+                        img_bird?.setImageResource(arr_bird.get(0))
+
+                    }
+            1->
+            {
+                img_bird?.setImageResource(arr_bird.get(1))
+
+            }
+           2->
+            {
+                img_bird?.setImageResource(arr_bird.get(2))
+            }
+        }
+    }
+
+    fun click_bird(view: View) {
+
+
+        show_bird_choose()
 
     }
 
