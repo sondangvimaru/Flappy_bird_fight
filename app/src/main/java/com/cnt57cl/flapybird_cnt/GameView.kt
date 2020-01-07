@@ -158,6 +158,17 @@ class GameView(context: Context, att: AttributeSet?):View(context,att) {
         if(pipe_up2_height>pipe_down2_height) pipe_down2_height= Random.nextInt(pipe_up2_height/2,height/2-150)
         if(pipe_down2_height+10>=height/2) pipe_down2_height-=30
         if(pipe_up2_height-10<=height/2) pipe_down2_height+=30
+        if(pipe_up3_x>pipe_upx  && (pipe_up3_x-pipe_upx+pipe_up!!.width)<=30)
+        {
+            pipe_up2_x+=150
+            pipe_down2_x+=150
+        }
+        if(pipe_up3_x>pipe_up2_x && (pipe_up3_x-pipe_up2_x+pipe_up2!!.width)<=30)
+        {
+            pipe_up2_x+=150
+            pipe_down2_x+=150
+        }
+
     }
     fun  setupdata_pipe3()
     {
@@ -168,7 +179,16 @@ class GameView(context: Context, att: AttributeSet?):View(context,att) {
         pipe_down3_height= Random.nextInt(300,height/2-60)
         if(pipe_up3_height>pipe_down3_height) pipe_down3_height= Random.nextInt(pipe_up3_height/2,height/2-150)
         if(pipe_down3_height+10>=height/2) pipe_down3_height-=30
-
+        if(pipe_up2_x>pipe_upx  && (pipe_up2_x-pipe_upx+pipe_up!!.width)<=30)
+        {
+            pipe_up2_x+=150
+            pipe_down2_x+=150
+        }
+        if(pipe_up2_x>pipe_up3_x && (pipe_up2_x-pipe_up3_x+pipe_up3!!.width)<=30)
+        {
+            pipe_up2_x+=150
+            pipe_down2_x+=150
+        }
     }
     fun setupdata_pipe()
     {
@@ -181,6 +201,16 @@ class GameView(context: Context, att: AttributeSet?):View(context,att) {
         if(pipe_upheight>pipe_downheight) pipe_downheight= Random.nextInt(pipe_upheight/2,height/2-150)
         if(pipe_downheight+10>=height/2) pipe_downheight-=30
         if(pipe_upheight-10<=height/2) pipe_downheight+=30
+        if(pipe_upx>pipe_up2_x   && (pipe_upx-pipe_up2_x+pipe_up2!!.width)<=30)
+        {
+            pipe_upx+=150
+            pipe_downx+=150
+        }
+        if(pipe_upx>pipe_up3_x   && (pipe_upx-pipe_up3_x+pipe_up3!!.width)<=30)
+        {
+            pipe_upx+=150
+            pipe_downx+=150
+        }
     }
 
     @SuppressLint("DrawAllocation")

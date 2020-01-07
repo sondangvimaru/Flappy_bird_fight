@@ -16,6 +16,8 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -29,6 +31,7 @@ import com.facebook.*
 import com.facebook.Profile.getCurrentProfile
 import com.facebook.internal.ImageRequest
 import com.facebook.login.LoginResult
+import com.mrgames13.jimdo.splashscreen.App.SplashScreenBuilder
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
@@ -62,8 +65,22 @@ class MainActivity : AppCompatActivity(),View.OnClickListener{
     var vitri=0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        SplashScreenBuilder.getInstance(this)
+            .setVideo(R.raw.splash_animation)
+            .setTitle("Flappy Brid Fight")
+            .setTextFadeInDuration(2000)
+            .setVideoDark(R.raw.splash_animation_dark)
+            .setSubtitle(" ")
+            .setImage(R.drawable.yellowbirdmidflap)
+            .show()
         setContentView(R.layout.activity_main)
-
+        val comin:Animation=AnimationUtils.loadAnimation(applicationContext,R.anim.come_in)
+    //    val left_to_right=AnimationUtils.loadAnimation(applicationContext,R.anim.left_to_right)
+      //  val right_to_left=AnimationUtils.loadAnimation(applicationContext,R.anim.right_to_left)
+       img_title.startAnimation(comin)
+//        start_game_button_lights.startAnimation(left_to_right)
+//        start_game_button.startAnimation(left_to_right)
+//        img_chart.startAnimation(right_to_left)
         startLightsAnimation()
         FacebookSdk.fullyInitialize()
        FacebookSdk.setAutoLogAppEventsEnabled(true)
@@ -120,7 +137,7 @@ class MainActivity : AppCompatActivity(),View.OnClickListener{
     {
         try
         {
-            socket= IO.socket("http://192.168.1.6:3000")
+            socket= IO.socket("http://192.168.1.7:3000")
 
             socket!!.connect()
 
@@ -192,7 +209,7 @@ fun getview():View
 {
     val view:View= LayoutInflater.from(this).inflate(R.layout.searching_game_view,null,false)
     val btn_cancel= view.findViewById<Button>(R.id.btn_cancel)
-    btn_cancel.setOnClickListener(View.OnClickListener {
+    btn_cancel.setOnClickListener  {
 
 
         if(seachingDialog!=null&& seachingDialog!!.isShowing)
@@ -202,7 +219,7 @@ fun getview():View
         socket?.emit("huy-tim-tran",id.toString())
 
 
-    })
+    }
     return view
 }
     fun  loginfacebook()
@@ -226,7 +243,9 @@ fun getview():View
                         currentProfile: Profile?
                     ) {
                         this.stopTracking()
+                        if(currentProfile!=null)
                         Profile.setCurrentProfile(currentProfile)
+                        else  Profile.setCurrentProfile(oldProfile)
                     }
 
                 }

@@ -37,7 +37,7 @@
                 android:layout_height="70dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
-
+                android:layout_marginStart="4dp"
                 app:civ_border_width="2dp"
                 app:civ_border_color="#FF0000"
                 />

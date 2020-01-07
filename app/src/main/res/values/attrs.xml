@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+<resources>
+    <declare-styleable name="SkyTimeBackgroundView">
+        <attr name="autoStart" format="boolean" />
+        <attr name="planetVisible" format="boolean" />
+        <attr name="planetPosition" format="integer" />
+        <attr name="planetAnimation" format="boolean" />
+        <attr name="planetSpeed" format="integer" />
+        <attr name="starVisible" format="boolean" />
+        <attr name="starLineVisible" format="boolean|string" />
+        <attr name="planetType" format="string" />
+    </declare-styleable>
+    <declare-styleable name="ParticlesDrawable">
+        <attr name="minDotRadius" format="dimension"/>
+        <attr name="maxDotRadius" format="dimension"/>
+        <attr name="lineThickness" format="dimension"/>
+        <attr name="lineDistance" format="dimension"/>
+        <attr name="numDots" format="integer"/>
+        <attr name="dotColor" format="color"/>
+        <attr name="lineColor" format="color"/>
+        <attr name="frameDelayMillis" format="integer"/>
+        <attr name="stepMultiplier" format="float"/>
+    </declare-styleable>
+</resources>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="10"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp">
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_weight="2"
+        android:id="@+id/img_cup"
+
+        android:layout_marginStart="4dp"
+        android:adjustViewBounds="true"
+        />
+<de.hdodenhof.circleimageview.CircleImageView
+    android:layout_width="0dp"
+    android:layout_height="100dp"
+    android:layout_weight="2"
+    android:layout_marginStart="5dp"
+    android:id="@+id/img_avatar"
+
+    app:civ_border_width="3dp"
+    app:civ_border_color="#fff"
+    />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="6"
+        android:layout_gravity="center"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_name"
+            android:textAlignment="center"
+            android:textSize="25sp"
+            android:text="Son"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_winnumber"
+            android:textAlignment="center"
+            android:textSize="25sp"
+            android:text="Win"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            />
+    </LinearLayout>
+</LinearLayout>
