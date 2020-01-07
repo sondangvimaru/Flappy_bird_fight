@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity(),View.OnClickListener{
             .setTextFadeInDuration(2000)
             .setVideoDark(R.raw.splash_animation_dark)
             .setSubtitle(" ")
-            .setImage(R.drawable.yellowbirdmidflap)
+            .setImage(R.drawable.img)
             .show()
         setContentView(R.layout.activity_main)
         val comin:Animation=AnimationUtils.loadAnimation(applicationContext,R.anim.come_in)

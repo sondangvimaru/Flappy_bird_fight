@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -54,12 +55,14 @@ class Gameplaying : AppCompatActivity(){
 
        init()
         start_time()
-        message.setOnClickListener(View.OnClickListener {
-            message.visibility=View.GONE
-            frame_fight.visibility=View.VISIBLE
-            gameview_play.visibility=View.VISIBLE
-            gameview_play.bird_id=this.bird_id
-        })
+       Handler().postDelayed(Runnable {
+           message.visibility=View.GONE
+           frame_fight.visibility=View.VISIBLE
+           gameview_play.visibility=View.VISIBLE
+           gameview_play.bird_id=this.bird_id
+       },2000)
+
+
 
 
     }
