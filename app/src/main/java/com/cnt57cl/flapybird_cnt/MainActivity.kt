@@ -61,7 +61,8 @@ class MainActivity : AppCompatActivity(),View.OnClickListener{
     var btn_back:ImageButton?=null
     var img_bird:ImageView?=null
     var btn_ok:ImageButton?=null
-    var arr_bird:IntArray= intArrayOf(R.drawable.yellowbirdmidflap,R.drawable.bluebirdmidflap,R.drawable.redbirdmidflap)
+    var arr_bird:IntArray= intArrayOf(R.drawable.yellowbirdmidflap,R.drawable.bluebirdmidflap,R.drawable.redbirdmidflap
+        )
     var vitri=0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,8 +71,9 @@ class MainActivity : AppCompatActivity(),View.OnClickListener{
             .setTitle("Flappy Brid Fight")
             .setTextFadeInDuration(2000)
             .setVideoDark(R.raw.splash_animation_dark)
-            .setSubtitle(" ")
-            .setImage(R.drawable.img)
+            .setSubtitle("CNT57CL")
+            .setImage(R.drawable.fl)
+
             .show()
         setContentView(R.layout.activity_main)
         val comin:Animation=AnimationUtils.loadAnimation(applicationContext,R.anim.come_in)
@@ -137,7 +139,7 @@ class MainActivity : AppCompatActivity(),View.OnClickListener{
     {
         try
         {
-            socket= IO.socket("https://serverfappybird.herokuapp.com/")
+            socket= IO.socket("http://192.168.1.5:3000/")
 
             socket!!.connect()
 
@@ -492,6 +494,7 @@ fun getview():View
 
         dialog_choose.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog_choose.setContentView(v)
+       
         dialog_choose.setCancelable(false)
         dialog_choose.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         btn_next=dialog_choose.findViewById(R.id.btn_next)

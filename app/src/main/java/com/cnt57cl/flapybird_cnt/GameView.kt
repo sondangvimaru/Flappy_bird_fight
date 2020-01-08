@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import kotlin.random.Random
 
+
 class GameView(context: Context, att: AttributeSet?):View(context,att) {
 
     var handel:Handler?=null
@@ -75,6 +76,12 @@ class GameView(context: Context, att: AttributeSet?):View(context,att) {
     var arr_bird1:IntArray= intArrayOf(R.drawable.upbrid,R.drawable.downbird)
     var arr_bird2:IntArray= intArrayOf(R.drawable.bluebirdupflap,R.drawable.bluebirddownflap)
     var arr_bird3:IntArray= intArrayOf(R.drawable.redbirdupflap,R.drawable.redbirddownflap)
+//    var arr_nbird1:IntArray= intArrayOf(R.drawable.newbrid11,R.drawable.newbird12)
+//    var arr_nbird2:IntArray= intArrayOf(R.drawable.newbird21,R.drawable.newbrid22)
+//    var arr_nbird3:IntArray= intArrayOf(R.drawable.newbird31,R.drawable.newbrid32)
+//    var arr_nbird4:IntArray= intArrayOf(R.drawable. newbrid41,R.drawable.newbrid42)
+//    var arr_nbird5:IntArray= intArrayOf(R.drawable.newbrid51,R.drawable.newbrid52)
+//    var arr_nbird6:IntArray= intArrayOf(R.drawable.newbird61,R.drawable.newbird62)
     var bird_id=0
     init {
 
@@ -112,12 +119,26 @@ class GameView(context: Context, att: AttributeSet?):View(context,att) {
 
     }
 
+    fun getResizedBitmap(bm: Bitmap, newWidth: Int, newHeight: Int): Bitmap? {
+        val width = bm.width
+        val height = bm.height
+        val scaleWidth = newWidth.toFloat() / width
+        val scaleHeight = newHeight.toFloat() / height
+        val matrix = Matrix()
+        matrix.postScale(scaleWidth, scaleHeight)
+        val resizedBitmap = Bitmap.createBitmap(
+            bm, 0, 0, width, height, matrix, false
+        )
+        bm.recycle()
+        return resizedBitmap
+    }
     override fun isShown(): Boolean {
 
         brid= ArrayList()
-        val bird1:Bitmap=getbirdup()
+        val bird1:Bitmap=  getbirdup()
 
-        val bird2:Bitmap=getbirdown()
+        val bird2:Bitmap= getbirdown()
+
         brid?.add(bird1)
         brid?.add(bird2)
         birdx=(dwith-brid?.get(0)!!.width)/2
@@ -134,6 +155,14 @@ class GameView(context: Context, att: AttributeSet?):View(context,att) {
             0-> return  BitmapFactory.decodeResource(resources,arr_bird1.get(1))
             1-> return  BitmapFactory.decodeResource(resources,arr_bird2.get(1))
             2-> return  BitmapFactory.decodeResource(resources,arr_bird3.get(1))
+//            3->return  BitmapFactory.decodeResource(resources,arr_nbird1.get(1))
+//            4->return  BitmapFactory.decodeResource(resources,arr_nbird2.get(1))
+//            5->return  BitmapFactory.decodeResource(resources,arr_nbird3.get(1))
+//            6->return  BitmapFactory.decodeResource(resources,arr_nbird4.get(1))
+//            7->return  BitmapFactory.decodeResource(resources,arr_nbird5.get(1))
+//            8->return  BitmapFactory.decodeResource(resources,arr_nbird6.get(1))
+
+
         }
         return BitmapFactory.decodeResource(resources,arr_bird1.get(1))
     }
@@ -144,6 +173,12 @@ class GameView(context: Context, att: AttributeSet?):View(context,att) {
             0-> return  BitmapFactory.decodeResource(resources,arr_bird1.get(0))
             1-> return  BitmapFactory.decodeResource(resources,arr_bird2.get(0))
             2-> return  BitmapFactory.decodeResource(resources,arr_bird3.get(0))
+//            3->return  BitmapFactory.decodeResource(resources,arr_nbird1.get(0))
+//            4->return  BitmapFactory.decodeResource(resources,arr_nbird2.get(0))
+//            5->return  BitmapFactory.decodeResource(resources,arr_nbird3.get(0))
+//            6->return  BitmapFactory.decodeResource(resources,arr_nbird4.get(0))
+//            7->return  BitmapFactory.decodeResource(resources,arr_nbird5.get(0))
+//            8->return  BitmapFactory.decodeResource(resources,arr_nbird6.get(0))
         }
         return BitmapFactory.decodeResource(resources,arr_bird1.get(0))
     }
