@@ -139,7 +139,7 @@ class MainActivity : AppCompatActivity(),View.OnClickListener{
     {
         try
         {
-            socket= IO.socket("http://192.168.1.5:3000/")
+            socket= IO.socket("https://serverfappybird.herokuapp.com")
 
             socket!!.connect()
 
